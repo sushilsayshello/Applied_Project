@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DDoS Detection and Classification System</title>
+    <!-- Include Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!-- Custom CSS styles -->
+    <style>
+        /* Custom CSS for additional styling */
+        body {
+            background-color: #f0f2f5;
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        .nav-link {
+            color: #ffffff !important;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #ffffff;
+        }
+        .btn-primary, .btn-secondary {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+        }
+        #result {
+            display: none;
+            margin-top: 20px;
+        }
+        #datasetSection {
+            display: none;
+            margin-top: 40px;
+        }
+        #datasetPreview {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .option-card {
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+        }
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
+            background-color: #f8f9fa;
+        }
+        /* Styles for login page */
+        #loginForm, #signupForm, #forgotPasswordForm {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
+        }
+        #systemDescription {
+            margin-top: 30px;
+            font-size: 1.1em;
+        }
+        /* Hide all sections initially */
+        #mainContent > div {
+            display: none;
+        }
+        /* Animation for page transitions */
+        .page-section {
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        /* User Profile Styles */
+        #profilePage {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 50px;
+        }
+        #dashboardPage {
+            margin-top: 50px;
+        }
+        /* Form validation styles */
+        .was-validated .form-control:invalid {
+            border-color: #dc3545;
+        }
+        .was-validated .form-control:valid {
+            border-color: #28a745;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand text-white" href="#" id="navBrand">DDoS Detection System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" style="color: #ffffff;"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto" id="navLinks">
+                <!-- Dynamic navigation links will be inserted here -->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main container -->
+    <div class="container mt-5" id="mainContent">
+        <!-- Landing Page -->
+        <div id="landingPage" class="page-section">
+            <div class="text-center">
+                <h2>Welcome to the DDoS Detection and Classification System</h2>
+                <p id="systemDescription">
+                    This system helps you detect potential Distributed Denial of Service (DDoS) attacks by analyzing network traffic data. DDoS attacks can overwhelm networks, servers, or applications, causing disruption of services. Our system provides tools to help you detect such attacks early.
+                </p>
+                <button class="btn btn-primary btn-lg mt-4" id="getStartedButton">Let's Get Started</button>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginPage" class="page-section">
+            <form id="loginForm" novalidate>
+                <h3 class="text-center">Login</h3>
+                <div class="form-group">
+                    <label for="loginEmail">Email address:</label>
+                    <input type="email" class="form-control" id="loginEmail" placeholder="Enter email" required>
+                    <div class="invalid-feedback">Please enter a valid email.</div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Enter password" required>
+                    <div class="invalid-feedback">Please enter your password.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="mt-3 text-center">
+                    <a href="#" id="forgotPasswordLink">Forgot Password?</a> | 
+                    <a href="#" id="signupLink">Sign Up</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signupPage" class="page-section">
+            <form id="signupForm" novalidate>
+                <h3 class="text-center">Sign Up</h3>
+                <div class="form-group">
+                    <label for="signupName">Name:</label>
+                    <input type="text" class="form-control" id="signupName" placeholder="Enter your name" required>
+                    <div class="invalid-feedback">Please enter your name.</div>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email address:</label>
+                    <input type="email" class="form-control" id="signupEmail" placeholder="Enter email" required>
+                    <div class="invalid-feedback">Please enter a valid email.</div>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password:</label>
+                    <input type="password" class="form-control" id="signupPassword" placeholder="Create a password" required>
+                    <div class="invalid-feedback">Please create a password.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <p class="mt-3 text-center">
+                    <a href="#" id="loginLink">Already have an account? Login</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Forgot Password Form -->
+        <div id="forgotPasswordPage" class="page-section">
+            <form id="forgotPasswordForm" novalidate>
+                <h3 class="text-center">Forgot Password</h3>
+                <div class="form-group">
+                    <label for="forgotEmail">Email address:</label>
+                    <input type="email" class="form-control" id="forgotEmail" placeholder="Enter your email" required>
+                    <div class="invalid-feedback">Please enter your registered email.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Reset Password</button>
+                <p class="mt-3 text-center">
+                    <a href="#" id="loginLink2">Back to Login</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Options Page after login -->
+        <div id="optionsPage" class="page-section">
+            <div class="text-center">
+                <h2>Welcome, User!</h2>
+                <p>Choose an option below to start analyzing network traffic data.</p>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <div class="card option-card" id="dashboardOption">
+                        <div class="card-body text-center">
+                            <h3>Dashboard</h3>
+                            <p>View system overview and recent analyses.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card option-card" id="enterManuallyOption">
+                        <div class="card-body text-center">
+                            <h3>Enter Data Manually</h3>
+                            <p>Input network traffic details to detect potential DDoS attacks.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card option-card" id="uploadDataOption">
+                        <div class="card-body text-center">
+                            <h3>Upload Data File</h3>
+                            <p>Upload a data file (CSV or XLS) containing network traffic data for batch analysis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboardPage" class="page-section">
+            <h2>Dashboard</h2>
+            <p>Welcome to your dashboard! Here you can see an overview of the system and recent analyses.</p>
+            <!-- Add dashboard content here -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-header">Total Analyses</div>
+                        <div class="card-body">
+                            <h5 class="card-title" id="totalAnalyses">0</h5>
+                            <p class="card-text">Number of analyses performed.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card text-white bg-danger mb-3">
+                        <div class="card-header">Detected Attacks</div>
+                        <div class="card-body">
+                            <h5 class="card-title" id="detectedAttacks">0</h5>
+                            <p class="card-text">Number of potential DDoS attacks detected.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile Page -->
+        <div id="profilePage" class="page-section">
+            <h2>User Profile</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="profileName">Name:</label>
+                    <input type="text" class="form-control" id="profileName" required>
+                </div>
+                <div class="form-group">
+                    <label for="profileEmail">Email address:</label>
+                    <input type="email" class="form-control" id="profileEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </div>
+
+        <!-- Form for entering network traffic details -->
+        <div id="manualEntryPage" class="page-section">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Enter Network Traffic Details</h3>
+                </div>
+                <div class="card-body">
+                    <form id="ddosForm" novalidate>
+                        <!-- Form groups for input fields with examples in placeholders -->
+                        <div class="form-group">
+                            <label for="pktcount">Packet Count:</label>
+                            <input type="number" class="form-control" id="pktcount" name="pktcount" placeholder="e.g., 50000" required>
+                            <div class="invalid-feedback">Please enter the packet count.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bytecount">Byte Count:</label>
+                            <input type="number" class="form-control" id="bytecount" name="bytecount" placeholder="e.g., 50000000" required>
+                            <div class="invalid-feedback">Please enter the byte count.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dur">Duration (seconds):</label>
+                            <input type="number" class="form-control" id="dur" name="dur" placeholder="e.g., 100" required>
+                            <div class="invalid-feedback">Please enter the duration.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="flows">Number of Flows:</label>
+                            <input type="number" class="form-control" id="flows" name="flows" placeholder="e.g., 3" required>
+                            <div class="invalid-feedback">Please enter the number of flows.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="packetins">Packet Ins:</label>
+                            <input type="number" class="form-control" id="packetins" name="packetins" placeholder="e.g., 1943" required>
+                            <div class="invalid-feedback">Please enter the packet ins.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pktperflow">Packets per Flow:</label>
+                            <input type="number" class="form-control" id="pktperflow" name="pktperflow" placeholder="e.g., 13535" required>
+                            <div class="invalid-feedback">Please enter the packets per flow.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="byteperflow">Bytes per Flow:</label>
+                            <input type="number" class="form-control" id="byteperflow" name="byteperflow" placeholder="e.g., 14428310" required>
+                            <div class="invalid-feedback">Please enter the bytes per flow.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pktrate">Packet Rate:</label>
+                            <input type="number" class="form-control" id="pktrate" name="pktrate" placeholder="e.g., 451" required>
+                            <div class="invalid-feedback">Please enter the packet rate.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pairflow">Pair Flow:</label>
+                            <input type="number" class="form-control" id="pairflow" name="pairflow" placeholder="e.g., 0" required>
+                            <div class="invalid-feedback">Please enter the pair flow.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="protocol">Protocol:</label>
+                            <select class="form-control" id="protocol" name="protocol" required>
+                                <option value="" disabled selected>Select Protocol</option>
+                                <option value="TCP">TCP</option>
+                                <option value="UDP">UDP</option>
+                                <option value="ICMP">ICMP</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a protocol.</div>
+                        </div>
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary">Detect DDoS Attack</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Section for displaying results -->
+            <div id="result" class="alert mt-4" role="alert">
+                <!-- Result will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Section for uploading a dataset -->
+        <div id="uploadDataPage" class="page-section">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Upload Dataset</h3>
+                </div>
+                <div class="card-body">
+                    <form id="datasetForm" novalidate>
+                        <div class="form-group">
+                            <label for="datasetFile">Choose Data File (CSV or XLS/XLSX):</label>
+                            <input type="file" class="form-control-file" id="datasetFile" accept=".csv, .xls, .xlsx" required>
+                            <div class="invalid-feedback">Please select a data file.</div>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Upload and Analyze</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Section for displaying dataset -->
+            <div id="datasetSection" class="mt-5">
+                <h4>Dataset Preview:</h4>
+                <div id="datasetPreview" class="table-responsive">
+                    <!-- Dataset table will be displayed here -->
+                </div>
+                <!-- Additional options to analyze dataset can be added here -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Popper.js for Bootstrap tooltips and popovers -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <!-- Include PapaParse library for CSV parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <!-- Include SheetJS library for XLS parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Custom JavaScript code -->
+    <script>
+        // JavaScript code for navigation and form handling
+
+        $(document).ready(function() {
+            // Hide all sections except the landing page
+            $('#landingPage').show();
+
+            // Check login status
+            var isLoggedIn = false;
+            var totalAnalyses = 0;
+            var detectedAttacks = 0;
+
+            // Update navigation bar based on login status
+            function updateNavBar() {
+                var navLinks = $('#navLinks');
+                navLinks.empty();
+
+                if (isLoggedIn) {
+                    // Links after login
+                    navLinks.append('<li class="nav-item"><a class="nav-link" href="#" id="navHome">Home</a></li>');
+                    navLinks.append('<li class="nav-item"><a class="nav-link" href="#" id="navDashboard">Dashboard</a></li>');
+                    navLinks.append('<li class="nav-item"><a class="nav-link" href="#" id="navManualEntry">Manual Entry</a></li>');
+                    navLinks.append('<li class="nav-item"><a class="nav-link" href="#" id="navUploadData">Upload Data</a></li>');
+                    navLinks.append('<li class="nav-item"><a class="nav-link" href="#" id="navProfile">Profile</a></li>');
+                    navLinks.append('<li class="nav-item"><a class="nav-link" href="#" id="navLogout">Logout</a></li>');
+                } else {
+                    // Links before login
+                    navLinks.append('<li class="nav-item"><a class="nav-link" href="#" id="navHome">Home</a></li>');
+                    navLinks.append('<li class="nav-item"><a class="nav-link" href="#" id="navLogin">Login</a></li>');
+                }
+            }
+
+            updateNavBar();
+
+            // Navigation links
+            $(document).on('click', '#navLogin', function() {
+                showPage('loginPage');
+            });
+
+            $(document).on('click', '#navHome', function() {
+                if (isLoggedIn) {
+                    showPage('optionsPage');
+                } else {
+                    showPage('landingPage');
+                }
+            });
+
+            // "Let's Get Started" button
+            $('#getStartedButton').click(function() {
+                showPage('loginPage');
+            });
+
+            // Links in forms
+            $('#signupLink').click(function() {
+                showPage('signupPage');
+            });
+
+            $('#loginLink').click(function() {
+                showPage('loginPage');
+            });
+
+            $('#loginLink2').click(function() {
+                showPage('loginPage');
+            });
+
+            $('#forgotPasswordLink').click(function() {
+                showPage('forgotPasswordPage');
+            });
+
+            // Option cards
+            $('#enterManuallyOption').click(function() {
+                showPage('manualEntryPage');
+            });
+
+            $('#uploadDataOption').click(function() {
+                showPage('uploadDataPage');
+            });
+
+            $('#dashboardOption').click(function() {
+                showPage('dashboardPage');
+                updateDashboard();
+            });
+
+            // Navigation links after login
+            $(document).on('click', '#navManualEntry', function() {
+                showPage('manualEntryPage');
+            });
+
+            $(document).on('click', '#navUploadData', function() {
+                showPage('uploadDataPage');
+            });
+
+            $(document).on('click', '#navDashboard', function() {
+                showPage('dashboardPage');
+                updateDashboard();
+            });
+
+            $(document).on('click', '#navProfile', function() {
+                showPage('profilePage');
+                loadProfile();
+            });
+
+            $(document).on('click', '#navLogout', function() {
+                isLoggedIn = false;
+                localStorage.removeItem('userName');
+                updateNavBar();
+                showPage('landingPage');
+            });
+
+            // Form submissions (with validation)
+            $('#loginForm').on('submit', function(event) {
+                event.preventDefault();
+                if (this.checkValidity() === false) {
+                    event.stopPropagation();
+                    $(this).addClass('was-validated');
+                } else {
+                    var loginEmail = $('#loginEmail').val();
+                    var userName = loginEmail.substring(0, loginEmail.indexOf('@')) || 'User';
+                    localStorage.setItem('userName', userName);
+                    isLoggedIn = true;
+                    updateNavBar();
+                    showPage('optionsPage');
+                }
+            });
+
+            $('#signupForm').on('submit', function(event) {
+                event.preventDefault();
+                if (this.checkValidity() === false) {
+                    event.stopPropagation();
+                    $(this).addClass('was-validated');
+                } else {
+                    var userName = $('#signupName').val();
+                    localStorage.setItem('userName', userName);
+                    isLoggedIn = true;
+                    updateNavBar();
+                    showPage('optionsPage');
+                }
+            });
+
+            $('#forgotPasswordForm').on('submit', function(event) {
+                event.preventDefault();
+                if (this.checkValidity() === false) {
+                    event.stopPropagation();
+                    $(this).addClass('was-validated');
+                } else {
+                    alert('Password reset link has been sent to your email.');
+                    showPage('loginPage');
+                }
+            });
+
+            // Profile form submission
+            $('#profileForm').on('submit', function(event) {
+                event.preventDefault();
+                alert('Profile updated successfully.');
+            });
+
+            // Handle DDoS detection form submission
+            $('#ddosForm').on('submit', function(event) {
+                event.preventDefault();
+                if (this.checkValidity() === false) {
+                    event.stopPropagation();
+                    $(this).addClass('was-validated');
+                } else {
+                    // Get input values
+                    var formData = {
+                        pktcount: parseInt($('#pktcount').val()),
+                        bytecount: parseInt($('#bytecount').val()),
+                        dur: parseInt($('#dur').val()),
+                        flows: parseInt($('#flows').val()),
+                        packetins: parseInt($('#packetins').val()),
+                        pktperflow: parseInt($('#pktperflow').val()),
+                        byteperflow: parseInt($('#byteperflow').val()),
+                        pktrate: parseInt($('#pktrate').val()),
+                        pairflow: parseInt($('#pairflow').val()),
+                        protocol: $('#protocol').val()
+                    };
+
+                    // Enhanced DDoS detection logic
+                    var isAttack = false;
+
+                    // Adjust thresholds and logic based on more features
+                    if (
+                        formData.pktcount > 100000 ||
+                        formData.bytecount > 100000000 ||
+                        formData.pktrate > 1000 ||
+                        formData.flows > 100 ||
+                        formData.pktperflow > 20000 ||
+                        formData.byteperflow > 50000000 ||
+                        formData.packetins > 5000 ||
+                        formData.pairflow > 10 ||
+                        (formData.protocol === 'ICMP' && formData.pktrate > 500)
+                    ) {
+                        isAttack = true;
+                    }
+
+                    // Update dashboard counts
+                    totalAnalyses++;
+                    if (isAttack) {
+                        detectedAttacks++;
+                    }
+
+                    // Display result
+                    var resultDiv = $('#result');
+                    resultDiv.removeClass('alert-success alert-danger');
+                    if (isAttack) {
+                        resultDiv.addClass('alert-danger');
+                        resultDiv.html('<strong>Warning!</strong> Potential DDoS attack detected.');
+                    } else {
+                        resultDiv.addClass('alert-success');
+                        resultDiv.html('No DDoS attack detected. Network traffic appears normal.');
+                    }
+                    resultDiv.show();
+                }
+            });
+
+            // Handle dataset upload form submission
+            $('#datasetForm').on('submit', function(event) {
+                event.preventDefault();
+                if (this.checkValidity() === false) {
+                    event.stopPropagation();
+                    $(this).addClass('was-validated');
+                } else {
+                    var fileInput = document.getElementById('datasetFile');
+                    var file = fileInput.files[0];
+
+                    if (file) {
+                        var fileName = file.name;
+                        var fileExtension = fileName.substr(fileName.lastIndexOf('.')).toLowerCase();
+
+                        if (fileExtension === '.csv') {
+                            // Parse CSV file using PapaParse
+                            Papa.parse(file, {
+                                header: true,
+                                dynamicTyping: true,
+                                complete: function(results) {
+                                    console.log(results);
+                                    // Display dataset preview
+                                    displayDataset(results.data);
+                                    // Simulate dataset analysis
+                                    analyzeDataset(results.data);
+                                },
+                                error: function(error) {
+                                    alert('Error parsing CSV file: ' + error.message);
+                                }
+                            });
+                        } else if (fileExtension === '.xls' || fileExtension === '.xlsx') {
+                            // Parse XLS/XLSX file using SheetJS
+                            var reader = new FileReader();
+                            reader.onload = function(e) {
+                                var data = e.target.result;
+                                var workbook = XLSX.read(data, {type: 'binary'});
+
+                                // Assuming data is in the first sheet
+                                var firstSheetName = workbook.SheetNames[0];
+                                var worksheet = workbook.Sheets[firstSheetName];
+                                var jsonData = XLSX.utils.sheet_to_json(worksheet, {header:1});
+
+                                // Convert to array of objects with headers
+                                var dataWithHeaders = [];
+                                var headers = jsonData[0];
+                                for (var i = 1; i < jsonData.length; i++) {
+                                    var row = {};
+                                    for (var j = 0; j < headers.length; j++) {
+                                        row[headers[j]] = jsonData[i][j];
+                                    }
+                                    dataWithHeaders.push(row);
+                                }
+
+                                console.log(dataWithHeaders);
+                                // Display dataset preview
+                                displayDataset(dataWithHeaders);
+                                // Simulate dataset analysis
+                                analyzeDataset(dataWithHeaders);
+
+                            };
+                            reader.onerror = function(ex) {
+                                alert('Error parsing XLS file: ' + ex.message);
+                            };
+                            reader.readAsBinaryString(file);
+                        } else {
+                            alert('Unsupported file format. Please upload a CSV or XLS/XLSX file.');
+                        }
+                    } else {
+                        alert('Please select a file.');
+                    }
+                }
+            });
+
+            // Function to display dataset in a table
+            function displayDataset(data) {
+                var datasetSection = $('#datasetSection');
+                var datasetPreview = $('#datasetPreview');
+
+                // Build table HTML
+                var table = '<table class="table table-bordered table-striped"><thead><tr>';
+
+                // Get the headers
+                var headers = Object.keys(data[0]);
+                for (var i = 0; i < headers.length; i++) {
+                    table += '<th>' + headers[i] + '</th>';
+                }
+                table += '</tr></thead><tbody>';
+
+                // Limit preview to first 10 rows
+                var previewData = data.slice(0, 10);
+                for (var i = 0; i < previewData.length; i++) {
+                    table += '<tr>';
+                    for (var j = 0; j < headers.length; j++) {
+                        var cellData = previewData[i][headers[j]] !== undefined ? previewData[i][headers[j]] : '';
+                        table += '<td>' + cellData + '</td>';
+                    }
+                    table += '</tr>';
+                }
+                table += '</tbody></table>';
+
+                datasetPreview.html(table);
+                datasetSection.show();
+            }
+
+            // Function to simulate dataset analysis
+            function analyzeDataset(data) {
+                var totalSamples = data.length;
+                var attackCount = 0;
+                var normalCount = 0;
+
+                totalAnalyses += totalSamples;
+
+                for (var i = 0; i < data.length; i++) {
+                    var row = data[i];
+
+                    // Extract necessary features
+                    var pktcount = parseInt(row['pktcount']);
+                    var bytecount = parseInt(row['bytecount']);
+                    var pktrate = parseInt(row['pktrate']);
+                    var flows = parseInt(row['flows']);
+                    var pktperflow = parseInt(row['pktperflow']);
+                    var byteperflow = parseInt(row['byteperflow']);
+                    var packetins = parseInt(row['packetins']);
+                    var pairflow = parseInt(row['pairflow']);
+                    var protocol = row['protocol'];
+
+                    // Enhanced detection logic
+                    var isAttack = false;
+                    if (
+                        pktcount > 100000 ||
+                        bytecount > 100000000 ||
+                        pktrate > 1000 ||
+                        flows > 100 ||
+                        pktperflow > 20000 ||
+                        byteperflow > 50000000 ||
+                        packetins > 5000 ||
+                        pairflow > 10 ||
+                        (protocol === 'ICMP' && pktrate > 500)
+                    ) {
+                        isAttack = true;
+                    }
+
+                    if (isAttack) {
+                        attackCount++;
+                        detectedAttacks++;
+                    } else {
+                        normalCount++;
+                    }
+                }
+
+                // Display analysis results
+                var analysisResult = '<h4>Dataset Analysis Result:</h4>';
+                analysisResult += '<p>Total Samples: ' + totalSamples + '</p>';
+                analysisResult += '<p>Potential DDoS Attacks Detected: ' + attackCount + '</p>';
+                analysisResult += '<p>Normal Traffic Samples: ' + normalCount + '</p>';
+
+                $('#datasetSection').append(analysisResult);
+                updateDashboard();
+            }
+
+            // Function to show a specific page/section
+            function showPage(pageId) {
+                // Hide all sections
+                $('#mainContent > div').hide();
+                // Show the requested section
+                $('#' + pageId).show();
+                // Scroll to top
+                window.scrollTo(0, 0);
+
+                // If the optionsPage is shown, set the user's name
+                if (pageId === 'optionsPage') {
+                    var userName = localStorage.getItem('userName') || 'User';
+                    $('#optionsPage h2').text('Welcome, ' + userName + '!');
+                }
+            }
+
+            // Function to load user profile
+            function loadProfile() {
+                var userName = localStorage.getItem('userName') || '';
+                var userEmail = localStorage.getItem('userEmail') || '';
+                $('#profileName').val(userName);
+                $('#profileEmail').val(userEmail);
+            }
+
+            // Function to update dashboard
+            function updateDashboard() {
+                $('#totalAnalyses').text(totalAnalyses);
+                $('#detectedAttacks').text(detectedAttacks);
+            }
+
+        });
+    </script>
+</body>
+</html>
