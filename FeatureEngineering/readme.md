@@ -50,21 +50,6 @@ We trained a Random Forest model to determine the importance of each feature in 
 A correlation heatmap of the top 10 most important features helps us understand the relationships between them. High correlations indicate redundancy, which can guide further feature selection.
 
 
-
-## 🛠️ How to Run
-
-1. 📦 Install necessary R packages: `readr`, `dplyr`, `caret`, `VIM`, `corrplot`, `ggplot2`, and `randomForest`.
-2. 📝 Run the full R code provided in the `feature_engineering.R` script.
-3. 📊 View the generated visualizations for feature importance and correlation heatmap.
-
-## 🌟 Interactivity Suggestions
-
-To make this feature engineering process interactive and visually engaging:
-
-- **📊 Interactive Dashboard**: Implement an R Shiny dashboard where users can upload their dataset, apply feature engineering steps, and visualize the results in real-time.
-- **🔍 Interactive Plot**: Use `plotly` in R to create interactive feature importance and correlation plots where users can hover over points to get detailed information.
-- **⚖️ Model Comparison**: Allow users to run different models on the engineered features and compare their performance metrics (e.g., accuracy, precision, recall).
-
 ## ✅ Conclusion
 
 This feature engineering process enhances the dataset by creating informative features, handling missing values, and reducing dimensionality. These steps are crucial for building an effective DDoS detection model.
