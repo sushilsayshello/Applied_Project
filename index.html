@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DDoS Attack Detection Dashboard</title>
+    <title>DDoS Detection System Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,22 +19,63 @@
         }
 
         #main-header {
-            background-color: #3B5998;
+            background: linear-gradient(to right, #3B5998, #6a89cc);
             color: #fff;
             padding: 20px 0;
             text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        #results {
+        #ddos-detection {
             margin-top: 20px;
             padding: 20px;
             background-color: #fff;
             border: 1px solid #ddd;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
 
         h2 {
             color: #333;
+            margin-top: 0;
+        }
+
+        .upload-section, .model-selection, .detection-results {
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #3B5998;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2d4373;
+        }
+
+        select {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+        }
+
+        .results {
+            background-color: #FAFAFA;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
         }
 
         .metrics {
@@ -50,25 +91,47 @@
             color: #fff;
             text-align: center;
             width: 20%;
+            transition: transform 0.3s;
         }
 
-        .buttons {
-            text-align: center;
-            margin-top: 20px;
+        .metric:hover {
+            transform: scale(1.1);
         }
 
-        .btn {
-            padding: 10px 20px;
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
             color: #fff;
-            background-color: #3B5998;
-            border: none;
+            text-align: center;
             border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .btn:hover {
-            background-color: #2d4373;
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        #uploadProgress {
+            width: 0;
+            height: 10px;
+            background-color: #3B5998;
+            margin-top: 10px;
+            border-radius: 5px;
+            transition: width 0.4s;
         }
     </style>
 </head>
@@ -76,62 +139,119 @@
 
     <header id="main-header">
         <div class="container">
-            <h1>DDoS Attack Detection Dashboard</h1>
+            <h1>DDoS Detection System Dashboard</h1>
         </div>
     </header>
 
-    <div class="container">
-        <div id="results">
-            <h2>Classification Results</h2>
-            <div class="metrics">
-                <div class="metric">
-                    <h3 id="accuracy">-</h3>
-                    <p>Accuracy</p>
-                </div>
-                <div class="metric">
-                    <h3 id="precision">-</h3>
-                    <p>Precision</p>
-                </div>
-                <div class="metric">
-                    <h3 id="recall">-</h3>
-                    <p>Recall</p>
-                </div>
-                <div class="metric">
-                    <h3 id="f1score">-</h3>
-                    <p>F1 Score</p>
-                </div>
-            </div>
+    <div class="container" id="ddos-detection">
+        <div class="upload-section">
+            <h2>Upload Network Traffic Data</h2>
+            <input type="file" id="fileUpload" onchange="showUploadProgress()">
+            <div id="uploadProgress"></div>
+            <button class="btn" onclick="uploadData()">Upload Data</button>
+        </div>
 
-            <div class="buttons">
-                <button class="btn" onclick="showResults()">Show Results</button>
-                <button class="btn" onclick="clearResults()">Clear Results</button>
+        <div class="model-selection">
+            <h2>Select Detection Model</h2>
+            <div class="tooltip">
+                <select id="modelSelect">
+                    <option value="xgboost">XGBoost</option>
+                    <option value="knn">K-Nearest Neighbors (KNN)</option>
+                    <option value="cnn">Convolutional Neural Network (CNN)</option>
+                    <option value="naivebayes">Naive Bayes</option>
+                    <option value="sgd">Stochastic Gradient Descent (SGD)</option>
+                </select>
+                <span class="tooltiptext">Choose a model for DDoS detection</span>
+            </div>
+            <button class="btn" onclick="runDetection()">Run Detection</button>
+        </div>
+
+        <div class="detection-results">
+            <h2>Detection Results</h2>
+            <div class="results" id="resultsSection" style="display: none;">
+                <h3>Model: <span id="selectedModel"></span></h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <h3 id="accuracy">-</h3>
+                        <p>Accuracy</p>
+                    </div>
+                    <div class="metric">
+                        <h3 id="precision">-</h3>
+                        <p>Precision</p>
+                    </div>
+                    <div class="metric">
+                        <h3 id="recall">-</h3>
+                        <p>Recall</p>
+                    </div>
+                    <div class="metric">
+                        <h3 id="f1score">-</h3>
+                        <p>F1 Score</p>
+                    </div>
+                </div>
+                <button class="btn" onclick="downloadReport()">Download Report</button>
             </div>
         </div>
     </div>
 
     <script>
-        function showResults() {
-            // Placeholder values, replace with actual results in real implementation
-            const results = {
-                accuracy: '95%',
-                precision: '92%',
-                recall: '90%',
-                f1score: '91%'
-            };
-
-            document.getElementById('accuracy').innerText = results.accuracy;
-            document.getElementById('precision').innerText = results.precision;
-            document.getElementById('recall').innerText = results.recall;
-            document.getElementById('f1score').innerText = results.f1score;
+        function showUploadProgress() {
+            document.getElementById('uploadProgress').style.width = '100%';
         }
 
-        function clearResults() {
-            document.getElementById('accuracy').innerText = '-';
-            document.getElementById('precision').innerText = '-';
-            document.getElementById('recall').innerText = '-';
-            document.getElementById('f1score').innerText = '-';
+        function uploadData() {
+            // Simulate data upload
+            alert("Network traffic data uploaded successfully.");
+            // Reset the upload progress bar
+            document.getElementById('uploadProgress').style.width = '0%';
+        }
+
+        function runDetection() {
+            // Get selected model
+            const model = document.getElementById('modelSelect').value;
+            document.getElementById('selectedModel').innerText = model.toUpperCase();
+
+            // Simulate detection results (these would be real results in a full implementation)
+            const results = {
+                xgboost: { accuracy: '97%', precision: '95%', recall: '94%', f1score: '94.5%' },
+                knn: { accuracy: '92%', precision: '90%', recall: '89%', f1score: '89.5%' },
+                cnn: { accuracy: '96%', precision: '93%', recall: '92%', f1score: '92.5%' },
+                naivebayes: { accuracy: '85%', precision: '83%', recall: '82%', f1score: '82.5%' },
+                sgd: { accuracy: '88%', precision: '85%', recall: '84%', f1score: '84.5%' }
+            };
+
+            const result = results[model];
+            document.getElementById('accuracy').innerText = result.accuracy;
+            document.getElementById('precision').innerText = result.precision;
+            document.getElementById('recall').innerText = result.recall;
+            document.getElementById('f1score').innerText = result.f1score;
+
+            // Show results section
+            document.getElementById('resultsSection').style.display = 'block';
+        }
+
+        function downloadReport() {
+            // Create a downloadable text report (this is a placeholder for actual functionality)
+            const reportData = `
+                DDoS Detection Report
+                =======================
+                Model: ${document.getElementById('selectedModel').innerText}
+                Accuracy: ${document.getElementById('accuracy').innerText}
+                Precision: ${document.getElementById('precision').innerText}
+                Recall: ${document.getElementById('recall').innerText}
+                F1 Score: ${document.getElementById('f1score').innerText}
+            `;
+
+            const blob = new Blob([reportData], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ddos_detection_report.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
     </script>
 
 </body>
 </html>
+
