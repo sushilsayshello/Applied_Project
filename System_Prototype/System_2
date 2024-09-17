@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DDoS Attack Detection and Classification System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Stylesheets -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+        }
+        header {
+            background-color: #2d3e50;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+        section {
+            margin-bottom: 40px;
+        }
+        h2 {
+            color: #2d3e50;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        .dataset-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .dataset-table th, .dataset-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        .dataset-table th {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        .dataset-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        #visualization {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        footer {
+            background-color: #2d3e50;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>DDoS Attack Detection and Classification System Prototype</h1>
+</header>
+
+<div class="container">
+
+    <!-- How We Detect DDoS Attacks -->
+    <section id="detection">
+        <h2>How We Detect DDoS Attacks</h2>
+        <p>
+            Our system utilizes a high-performance real-time traffic processing engine to detect various types of DDoS attacks, including:
+        </p>
+        <ul>
+            <li>UDP, TCP, and ICMP flood attacks</li>
+            <li>Fragmented packet attacks</li>
+            <li>Protocol attacks like SYN, SYN-ACK, and FIN floods</li>
+            <li>Amplification attacks using NTP, SNMP, SSDP, DNS, and more</li>
+            <li>Multi-vector attacks combining multiple techniques</li>
+        </ul>
+        <p>
+            We support multiple traffic telemetry protocols such as NetFlow, IPFIX, sFlow, and port mirroring, ensuring comprehensive monitoring of your network traffic.
+        </p>
+    </section>
+
+    <!-- DDoS Mitigation Strategies -->
+    <section id="mitigation">
+        <h2>DDoS Mitigation Strategies</h2>
+        <p>
+            We empower organizations to develop anti-DDoS strategies that align with their needs and budgets. Our system enables automation of various mitigation techniques, including:
+        </p>
+        <ul>
+            <li><strong>BGP Blackhole Automation:</strong> Automatically trigger BGP to block or divert malicious traffic when an attack is detected, ensuring network safety.</li>
+            <li><strong>FlowSpec Mitigation:</strong> Use BGP FlowSpec-capable routers to filter malicious traffic while keeping legitimate traffic flowing smoothly.</li>
+            <li><strong>Blocklist Filtering:</strong> Implement routing-level filtering to block traffic from known malicious sources, enhancing network security.</li>
+            <li><strong>Scrubbing Center Diversion:</strong> Divert malicious traffic to scrubbing centers automatically, reducing network load and mitigating attacks effectively.</li>
+            <li><strong>Traffic Visibility:</strong> Maintain in-depth traffic data for real-time monitoring and generate customizable reports for network insights.</li>
+        </ul>
+    </section>
+
+    <!-- Why Every Business Needs DDoS Protection -->
+    <section id="importance">
+        <h2>Why Every Business Needs DDoS Protection</h2>
+        <ul>
+            <li><strong>Maintain SLAs:</strong> Avoid breaches of service level agreements that can lead to financial losses and damaged trust.</li>
+            <li><strong>Customer Satisfaction:</strong> Ensure uninterrupted services to keep customers happy and prevent loss of business.</li>
+            <li><strong>Predictable Operations:</strong> Maintain consistent business operations without disruptions caused by unpredictable traffic patterns.</li>
+            <li><strong>Improve Response Metrics:</strong> Enhance mean time to detect and respond (MTTD/MTTR) to minimize damage from attacks.</li>
+            <li><strong>Prevent Data Breaches:</strong> Protect sensitive data from being compromised during DDoS attacks that may serve as a diversion.</li>
+            <li><strong>Support Forensics:</strong> Gain insights into attack patterns to strengthen defenses and prevent future incidents.</li>
+        </ul>
+    </section>
+
+    <!-- Dataset Display -->
+    <section id="dataset">
+        <h2>Network Traffic Dataset</h2>
+        <p>
+            Below is a sample of the network traffic data used for DDoS attack detection and classification:
+        </p>
+        <table class="dataset-table" id="data-table">
+            <thead>
+                <tr>
+                    <!-- Table headers -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table data will be populated by JavaScript -->
+            </tbody>
+        </table>
+        <button class="button" onclick="analyzeData()">Analyze Data</button>
+    </section>
+
+    <!-- Visualization -->
+    <section id="visualization-section">
+        <h2>Data Visualization</h2>
+        <canvas id="visualization"></canvas>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2023 DDoS Detection System Prototype</p>
+</footer>
+
+<!-- JavaScript -->
+<script>
+    // Sample dataset
+    const dataset = `
+dt\tswitch\tsrc\tdst\tpktcount\tbytecount\tdur\tdur_nsec\ttot_dur\tflows\tpacketins\tpktperflow\tbyteperflow\tpktrate\tPairflow\tProtocol\tport_no\ttx_bytes\trx_bytes\ttx_kbps\trx_kbps\ttot_kbps\tlabel
+11425\t1\t10.0.0.1\t10.0.0.8\t45304\t48294064\t100\t716000000\t1.01E+11\t3\t1943\t13535\t14428310\t451\t0\tUDP\t3\t143928631\t3917\t0\t0\t0\t0
+11605\t1\t10.0.0.1\t10.0.0.8\t126395\t134737070\t280\t734000000\t2.81E+11\t2\t1943\t13531\t14424046\t451\t0\tUDP\t4\t3842\t3520\t0\t0\t0\t0
+11425\t1\t10.0.0.2\t10.0.0.8\t90333\t96294978\t200\t744000000\t2.01E+11\t3\t1943\t13534\t14427244\t451\t0\tUDP\t1\t3795\t1242\t0\t0\t0\t0
+11335\t1\t10.0.0.1\t10.0.0.8\t4777\t5092282\t10\t711000000\t1.07E+10\t3\t1790\t0\t0\t0\t0\tUDP\t2\t3929\t53230984\t0\t3838\t3838\t1
+`;
+
+    // Function to parse dataset and populate the table
+    function populateTable() {
+        const lines = dataset.trim().split('\n');
+        const headers = lines[0].split('\t');
+        const table = document.getElementById('data-table');
+        const thead = table.querySelector('thead tr');
+        const tbody = table.querySelector('tbody');
+
+        // Create table headers
+        headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            thead.appendChild(th);
+        });
+
+        // Populate table rows
+        for (let i = 1; i < lines.length; i++) {
+            const row = lines[i].split('\t');
+            const tr = document.createElement('tr');
+            row.forEach(cell => {
+                const td = document.createElement('td');
+                td.textContent = cell;
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        }
+    }
+
+    // Function to analyze data and display a chart
+    function analyzeData() {
+        // Extract data for visualization
+        const lines = dataset.trim().split('\n');
+        const headers = lines[0].split('\t');
+        const data = lines.slice(1).map(line => line.split('\t'));
+
+        // Example: Visualize pktcount vs. label
+        const pktcountIndex = headers.indexOf('pktcount');
+        const labelIndex = headers.indexOf('label');
+
+        const pktcounts = data.map(row => parseInt(row[pktcountIndex]));
+        const labels = data.map(row => row[labelIndex]);
+
+        const normalTraffic = pktcounts.filter((value, index) => labels[index] === '0');
+        const ddosTraffic = pktcounts.filter((value, index) => labels[index] === '1');
+
+        // Create chart using Chart.js
+        const ctx = document.getElementById('visualization').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Normal Traffic', 'DDoS Attack'],
+                datasets: [{
+                    label: 'Packet Count',
+                    data: [
+                        normalTraffic.reduce((a, b) => a + b, 0),
+                        ddosTraffic.reduce((a, b) => a + b, 0)
+                    ],
+                    backgroundColor: ['#3498db', '#e74c3c']
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Load the table on page load
+    window.onload = function() {
+        populateTable();
+    };
+</script>
+
+<!-- Include Chart.js library from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+</html>
