@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DDoS Detection and Classification System</title>
+    <style>
+        /* CSS Styles */
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 60%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        header {
+            background: #50b3a2;
+            color: #ffffff;
+            padding-top: 20px;
+            min-height: 70px;
+            border-bottom: #2980b9 3px solid;
+        }
+
+        header h1 {
+            text-align: center;
+            margin: 0;
+            text-transform: uppercase;
+            font-size: 24px;
+        }
+
+        #main {
+            padding: 30px;
+            background: #ffffff;
+            margin-top: 30px;
+            box-shadow: 0px 0px 10px 0px #aaa;
+        }
+
+        #main h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            margin: 15px 0 5px;
+        }
+
+        form input[type="text"], form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        form select {
+            width: 100%;
+            padding: 10px;
+        }
+
+        form input[type="submit"] {
+            display: block;
+            width: 100%;
+            background: #50b3a2;
+            color: #ffffff;
+            border: 0;
+            padding: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        form input[type="submit"]:hover {
+            background: #3d8b7a;
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e7f4f3;
+            border-left: 5px solid #50b3a2;
+            display: none;
+        }
+
+        #result h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>DDoS Detection and Classification System</h1>
+    </header>
+
+    <div class="container">
+        <div id="main">
+            <h2>Enter Network Traffic Details</h2>
+            <form id="ddosForm">
+                <!-- Input Fields -->
+                <label for="pktcount">Packet Count:</label>
+                <input type="number" id="pktcount" name="pktcount" required>
+
+                <label for="bytecount">Byte Count:</label>
+                <input type="number" id="bytecount" name="bytecount" required>
+
+                <label for="dur">Duration (seconds):</label>
+                <input type="number" id="dur" name="dur" required>
+
+                <label for="flows">Number of Flows:</label>
+                <input type="number" id="flows" name="flows" required>
+
+                <label for="pktrate">Packet Rate:</label>
+                <input type="number" id="pktrate" name="pktrate" required>
+
+                <label for="protocol">Protocol:</label>
+                <select id="protocol" name="protocol" required>
+                    <option value="TCP">TCP</option>
+                    <option value="UDP">UDP</option>
+                    <option value="ICMP">ICMP</option>
+                </select>
+
+                <input type="submit" value="Detect DDoS Attack">
+            </form>
+
+            <div id="result">
+                <h3>Detection Result:</h3>
+                <p id="resultText"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Code
+
+        document.getElementById('ddosForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get input values
+            var pktcount = parseInt(document.getElementById('pktcount').value);
+            var bytecount = parseInt(document.getElementById('bytecount').value);
+            var dur = parseInt(document.getElementById('dur').value);
+            var flows = parseInt(document.getElementById('flows').value);
+            var pktrate = parseInt(document.getElementById('pktrate').value);
+            var protocol = document.getElementById('protocol').value;
+
+            // Simple heuristic for DDoS detection (for prototype purposes)
+            var isAttack = false;
+
+            if (pktcount > 100000 || bytecount > 100000000 || pktrate > 1000 || flows > 100) {
+                isAttack = true;
+            }
+
+            // Display result
+            var resultDiv = document.getElementById('result');
+            var resultText = document.getElementById('resultText');
+
+            if (isAttack) {
+                resultDiv.style.display = 'block';
+                resultText.innerHTML = "<strong>Warning!</strong> Potential DDoS attack detected.";
+                resultDiv.style.borderLeftColor = '#e74c3c';
+                resultDiv.style.backgroundColor = '#fceaea';
+            } else {
+                resultDiv.style.display = 'block';
+                resultText.innerHTML = "No DDoS attack detected. Network traffic appears normal.";
+                resultDiv.style.borderLeftColor = '#2ecc71';
+                resultDiv.style.backgroundColor = '#eafaf1';
+            }
+        });
+    </script>
+
+</body>
+</html>
