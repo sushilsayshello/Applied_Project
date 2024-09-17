@@ -1,1 +1,343 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DDoS Defender System Prototype</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Stylesheets -->
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        /* Header */
+        header {
+            background-color: #2c3e50;
+            padding: 20px 0;
+            color: white;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Logo */
+        .logo {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        /* Navigation */
+        nav {
+            float: right;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav li {
+            margin-left: 25px;
+        }
+        nav a {
+            color: white;
+            font-size: 16px;
+        }
+        /* Hero Section */
+        .hero {
+            background-color: lightblue;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+        .hero .cta-button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        /* Sections */
+        section {
+            padding: 60px 0;
+        }
+        section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 36px;
+            color: #2c3e50;
+        }
+        /* Features Section */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .feature-item {
+            width: 45%;
+            min-width: 250px;
+            background-color: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .feature-item h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+        .feature-item p {
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 0;
+        }
+        footer .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        footer h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        footer ul li {
+            margin-bottom: 10px;
+        }
+        footer ul li a {
+            color: white;
+            font-size: 14px;
+        }
+        footer .social-media a {
+            margin-right: 15px;
+            font-size: 20px;
+            color: white;
+        }
+        /* Media Queries */
+        @media (max-width: 768px) {
+            nav {
+                float: none;
+                text-align: center;
+                margin-top: 20px;
+            }
+            nav ul {
+                flex-direction: column;
+            }
+            nav li {
+                margin: 10px 0;
+            }
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            footer .footer-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            footer .footer-section {
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">DDoS Defender</div>
+            <nav>
+                <ul>
+                    <li><a href="#detection">Detection</a></li>
+                    <li><a href="#mitigation">Mitigation</a></li>
+                    <li><a href="#importance">Why Protect</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div style="clear: both;"></div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Advanced DDoS Detection and Mitigation</h1>
+            <p>Shield your network from attacks with our high-performance real-time protection system.</p>
+            <button class="cta-button">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Detection Section -->
+    <section id="detection">
+        <div class="container">
+            <h2>How We Detect DDoS Attacks</h2>
+            <p style="text-align: center;">Our system employs a powerful real-time traffic processing engine to identify various forms of DDoS attacks, such as:</p>
+            <div class="features">
+                <div class="feature-item">
+                    <h3>Flood Attacks</h3>
+                    <p>Detection of UDP, TCP, and ICMP flood attacks that overwhelm network resources.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Fragmented Packets</h3>
+                    <p>Identifying attacks that exploit fragmented packet techniques to bypass security measures.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Protocol Exploits</h3>
+                    <p>Monitoring for SYN, SYN-ACK, and FIN floods targeting protocol vulnerabilities.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Amplification Attacks</h3>
+                    <p>Detection of attacks leveraging services like NTP, SNMP, SSDP, and DNS to amplify traffic.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Multi-Vector Attacks</h3>
+                    <p>Comprehensive monitoring to identify complex attacks using multiple techniques simultaneously.</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 20px;">We support a variety of traffic telemetry protocols, including NetFlow, IPFIX, sFlow, and port mirroring, to ensure thorough network traffic analysis.</p>
+        </div>
+    </section>
+
+    <!-- Mitigation Section -->
+    <section id="mitigation" style="background-color: #ecf0f1;">
+        <div class="container">
+            <h2>DDoS Mitigation Strategies</h2>
+            <p style="text-align: center;">Our solution offers automated mitigation techniques tailored to your organization's needs and budget:</p>
+            <div class="features">
+                <div class="feature-item">
+                    <h3>BGP Blackhole Automation</h3>
+                    <p>Automatically initiate BGP protocols to block or redirect malicious traffic upon detection.</p>
+                    <a href="#" class="cta-button" style="font-size:14px; padding:10px 20px;">Learn More</a>
+                </div>
+                <div class="feature-item">
+                    <h3>FlowSpec Mitigation</h3>
+                    <p>Utilize BGP FlowSpec-enabled routers to filter out harmful traffic while maintaining legitimate data flow.</p>
+                    <a href="#" class="cta-button" style="font-size:14px; padding:10px 20px;">Learn More</a>
+                </div>
+                <div class="feature-item">
+                    <h3>Blocklist Filtering</h3>
+                    <p>Implement routing-level filters to block traffic from known malicious IP addresses and sources.</p>
+                    <a href="#" class="cta-button" style="font-size:14px; padding:10px 20px;">Learn More</a>
+                </div>
+                <div class="feature-item">
+                    <h3>Scrubbing Center Diversion</h3>
+                    <p>Automatically divert malicious traffic to scrubbing centers, reducing network strain and mitigating attacks effectively.</p>
+                    <a href="#" class="cta-button" style="font-size:14px; padding:10px 20px;">Learn More</a>
+                </div>
+                <div class="feature-item">
+                    <h3>Traffic Visibility</h3>
+                    <p>Maintain comprehensive traffic logs for real-time monitoring and generate customizable reports for insights.</p>
+                    <a href="#" class="cta-button" style="font-size:14px; padding:10px 20px;">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Importance Section -->
+    <section id="importance">
+        <div class="container">
+            <h2>Why Every Business Needs DDoS Protection</h2>
+            <div class="features">
+                <div class="feature-item">
+                    <h3>Maintain Service Levels</h3>
+                    <p>Avoid breaches of service agreements that can lead to financial losses and damage to your reputation.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Ensure Customer Satisfaction</h3>
+                    <p>Prevent service interruptions to keep customers happy and maintain their trust in your business.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Predictable Operations</h3>
+                    <p>Maintain consistent business operations without unexpected disruptions due to attacks.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Improve Response Times</h3>
+                    <p>Enhance your ability to detect and respond to threats quickly, minimizing potential damage.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Prevent Data Breaches</h3>
+                    <p>Protect sensitive information from being compromised during DDoS attacks that may mask other threats.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Support Forensic Analysis</h3>
+                    <p>Gain valuable insights into attack patterns to strengthen defenses and prevent future incidents.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background-color: #ecf0f1;">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p style="text-align: center;">For more information or to schedule a demo, reach out to us:</p>
+            <div style="text-align: center; margin-top: 30px;">
+                <p>Email: <a href="mailto:sales@ddosdefender.com">sales@ddosdefender.com</a></p>
+                <p>Support: <a href="mailto:support@ddosdefender.com">support@ddosdefender.com</a></p>
+                <p>Phone: +1 (555) 123-4567</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>DDoS Defender</h3>
+                    <p>DDoS Defender is committed to providing robust and reliable DDoS protection solutions for organizations worldwide.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#detection">Detection</a></li>
+                        <li><a href="#mitigation">Mitigation</a></li>
+                        <li><a href="#importance">Why Protect</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-media">
+                        <a href="#"><img src="https://i.imgur.com/9kSxQXI.png" alt="Facebook" width="24"></a>
+                        <a href="#"><img src="https://i.imgur.com/VcAtRSb.png" alt="Twitter" width="24"></a>
+                        <a href="#"><img src="https://i.imgur.com/UMecFdc.png" alt="LinkedIn" width="24"></a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: #7f8c8d;">
+            <p style="text-align: center; font-size: 14px;">&copy; 2023 DDoS Defender. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
