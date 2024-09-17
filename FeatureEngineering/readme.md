@@ -42,12 +42,23 @@ To reduce the complexity of the model and improve its performance, we applied Pr
 ### 📈 Feature Importance
 
 We trained a Random Forest model to determine the importance of each feature in predicting DDoS attacks. The plot below shows the top features ranked by their importance.
+<img width="765" alt="Screenshot 2024-09-17 at 10 20 22 PM" src="https://github.com/user-attachments/assets/6f9e7012-016b-4de9-a0f4-0cd04b42de76">
+
+<img width="772" alt="Screenshot 2024-09-17 at 10 22 57 PM" src="https://github.com/user-attachments/assets/b3ef06de-09fa-4214-a430-3122c9c43ba0">
+
+<img width="768" alt="Screenshot 2024-09-17 at 10 23 14 PM" src="https://github.com/user-attachments/assets/b0f35c54-bd06-456d-bfb2-8f539d8e18c9">
+<img width="768" alt="Screenshot 2024-09-17 at 10 23 14 PM" src="https://github.com/user-attachments/assets/9b9dac6f-5119-47e9-8e2a-dad725683a0d">
+<img width="895" alt="Screenshot 2024-09-17 at 10 23 42 PM" src="https://github.com/user-attachments/assets/9b170b2b-1f91-4cc5-a703-693f5c5b73be">
 
 
 
 ### 🌐 Correlation Heatmap
 
 A correlation heatmap of the top 10 most important features helps us understand the relationships between them. High correlations indicate redundancy, which can guide further feature selection.
+
+<img width="894" alt="Screenshot 2024-09-17 at 10 24 14 PM" src="https://github.com/user-attachments/assets/1bd3f57a-5d71-4803-80eb-9265c5d82890">
+
+
 
 
 ## ✅ Conclusion
