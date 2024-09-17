@@ -65,3 +65,49 @@ ggplot(importance_df, aes(x = reorder(Feature, MeanDecreaseGini), y = MeanDecrea
   coord_flip() +
   labs(title = "Feature Importance - Random Forest", x = "Feature", y = "Importance (Mean Decrease Gini)") +
   theme_minimal()
+
+# Plot distribution for the top 5 important features
+top_features <- head(importance_df$Feature, 5)
+
+# Create density plots for the top features
+for (feature in top_features) {
+  ggplot(dataset_clean, aes_string(x = feature, fill = target_column)) +
+    geom_density(alpha = 0.7) +
+    labs(title = paste("Density Plot of", feature),
+         x = feature,
+         y = "Density") +
+    theme_minimal() +
+    scale_fill_brewer(palette = "Set1") +
+    guides(fill=guide_legend(title=target_column)) +
+    theme(legend.position = "top") -> plot
+  print(plot)
+}
+
+
+# Create boxplots for the top features grouped by the target variable
+for (feature in top_features) {
+  ggplot(dataset_clean, aes_string(x = target_column, y = feature, fill = target_column)) +
+    geom_boxplot() +
+    labs(title = paste("Boxplot of", feature, "by Target Variable"),
+         x = "Target",
+         y = feature) +
+    theme_minimal() +
+    scale_fill_brewer(palette = "Set1") +
+    theme(legend.position = "none") -> plot
+  print(plot)
+}
+
+# Load the GGally library for pair plots
+library(GGally)
+
+# Create pair plots for the top 5 features
+ggpairs(dataset_clean[, c(top_features, target_column)],
+        aes(color = get(target_column)),
+        title = "Pair Plot of Top Features")
+
+# Compute the correlation matrix for the top features
+correlation_matrix_top <- cor(dataset_numeric[, top_features])
+
+# Plot the correlation heatmap
+corrplot(correlation_matrix_top, method = 'color', type = 'upper', tl.cex = 0.7, 
+         title = "Correlation Heatmap of Top Features")
