@@ -7,6 +7,8 @@
 
 A prototype for a DDoS detection and classification system using basic web technologies. This system allows for manual data entry and provides a basic interface to analyze network traffic data.
 
+https://sushilsayshello.github.io/Applied_Project/ 
+
 ## 📋 Table of Contents
 
 - [Features](#-features)
