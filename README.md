@@ -1,4 +1,4 @@
-![Screenshot 2024-10-02 at 9 55 49 AM](https://github.com/user-attachments/assets/38c3a254-9fe0-453a-9144-6c2a8ac1271f)# Applied_Project
+# Applied_Project
 
 # 🛡️ DDoS Detection and Classification System Prototype
 
