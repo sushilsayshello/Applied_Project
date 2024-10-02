@@ -44,13 +44,14 @@ https://sushilsayshello.github.io/Applied_Project/
 4. **Upload Data**: Upload a CSV or XLS file for batch analysis.
 
 
-![Screenshot 2024-10-02 at 9 54 27 AM](https://github.com/user-attachments/assets/13b0d4dd-6d3f-467f-8eed-059fd330a2d7)
-![Screenshot 2024-10-02 at 9 54 44 AM](https://github.com/user-attachments/assets/fa0bad69-82fc-4012-a937-8b57c778454d)
-![Screenshot 2024-10-02 at 9 54 59 AM](https://github.com/user-attachments/assets/ffd8b5b6-e1dc-45a6-b3a0-335904c48422)
-![Screenshot 2024-10-02 at 9 55 19 AM](https://github.com/user-attachments/assets/e05723c1-6f33-4650-9f42-99da91a00de4)
-![Screenshot 2024-10-02 at 9 55 49 AM](https://github.com/user-attachments/assets/b4c162cc-e01c-43e0-817c-3666ee867f62)
-![Screenshot 2024-10-02 at 9 56 41 AM](https://github.com/user-attachments/assets/39bb87a0-c31f-47c0-b54c-614e8244d69a)
-![Screenshot 2024-10-02 at 9 57 35 AM](https://github.com/user-attachments/assets/a525ace1-8fba-424e-b298-937d1a151179)
+<img src="https://github.com/user-attachments/assets/13b0d4dd-6d3f-467f-8eed-059fd330a2d7" alt="Screenshot 2024-10-02 at 9 54 27 AM">
+<img src="https://github.com/user-attachments/assets/fa0bad69-82fc-4012-a937-8b57c778454d" alt="Screenshot 2024-10-02 at 9 54 44 AM">
+<img src="https://github.com/user-attachments/assets/ffd8b5b6-e1dc-45a6-b3a0-335904c48422" alt="Screenshot 2024-10-02 at 9 54 59 AM">
+<img src="https://github.com/user-attachments/assets/e05723c1-6f33-4650-9f42-99da91a00de4" alt="Screenshot 2024-10-02 at 9 55 19 AM">
+<img src="https://github.com/user-attachments/assets/b4c162cc-e01c-43e0-817c-3666ee867f62" alt="Screenshot 2024-10-02 at 9 55 49 AM">
+<img src="https://github.com/user-attachments/assets/39bb87a0-c31f-47c0-b54c-614e8244d69a" alt="Screenshot 2024-10-02 at 9 56 41 AM">
+<img src="https://github.com/user-attachments/assets/a525ace1-8fba-424e-b298-937d1a151179" alt="Screenshot 2024-10-02 at 9 57 35 AM">
+
 
 
 
