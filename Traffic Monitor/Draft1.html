@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDoS Attack Detection Simulation</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { max-width: 600px; margin: auto; }
+        .log { border: 1px solid #ddd; padding: 10px; margin: 10px 0; height: 200px; overflow-y: scroll; background-color: #f9f9f9; }
+        .status { font-weight: bold; color: green; }
+        .status.attack { color: red; }
+        button { padding: 10px 20px; font-size: 16px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DDoS Attack Detection Simulation</h1>
+    <p>Simulating real-time network traffic and detecting potential DDoS attacks.</p>
+    
+    <div class="log" id="log"></div>
+    
+    <p class="status" id="status">Status: Monitoring Normal Traffic</p>
+    <button onclick="simulateTraffic()">Start Simulation</button>
+</div>
+
+<script>
+    let trafficInterval;
+    let packetRateThreshold = 100; // Threshold to consider high traffic as an "attack"
+    let normalTrafficRate = 30; // Average normal traffic rate
+    let highTrafficRate = 120; // DDoS-like traffic rate
+    let attackMode = false;
+
+    // Function to simulate traffic
+    function simulateTraffic() {
+        clearInterval(trafficInterval);
+        document.getElementById('log').innerHTML = ""; // Clear previous logs
+        attackMode = false;
+
+        // Start generating traffic
+        trafficInterval = setInterval(() => {
+            let packetRate = attackMode ? getRandomInt(highTrafficRate - 20, highTrafficRate) : getRandomInt(normalTrafficRate - 10, normalTrafficRate);
+            logTraffic(packetRate);
+
+            // Check for potential attack based on packet rate
+            if (packetRate >= packetRateThreshold) {
+                displayStatus("Potential DDoS Attack Detected", true);
+                attackMode = true;
+            } else {
+                displayStatus("Monitoring Normal Traffic", false);
+            }
+        }, 1000);
+    }
+
+    // Function to log traffic rate
+    function logTraffic(packetRate) {
+        let logDiv = document.getElementById('log');
+        let entry = document.createElement('div');
+        entry.textContent = `Packet Rate: ${packetRate} packets/sec`;
+        logDiv.appendChild(entry);
+        logDiv.scrollTop = logDiv.scrollHeight; // Auto-scroll to latest entry
+    }
+
+    // Function to display status
+    function displayStatus(message, isAttack) {
+        let statusElement = document.getElementById('status');
+        statusElement.textContent = `Status: ${message}`;
+        statusElement.classList.toggle('attack', isAttack);
+    }
+
+    // Helper function to generate random integers within a range
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+</script>
+
+</body>
+</html>
