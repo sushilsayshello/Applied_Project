@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DDoS Detection and Classification System</title>
+    <!-- Include Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Custom styles */
+        body { background-color: #f0f8ff; }
+        .navbar-brand { font-weight: bold; }
+        .card-header { background: linear-gradient(135deg, #36d1dc, #5b86e5); color: #ffffff; }
+        .btn-primary { background: linear-gradient(135deg, #36d1dc, #5b86e5); border: none; }
+        #realTimeTraffic { margin-top: 20px; display: none; }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #36d1dc;">
+        <a class="navbar-brand text-white" href="#" id="navBrand">DDoS Detection System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto" id="navLinks"></ul>
+            <button class="btn btn-dark ml-3" id="darkModeToggle"><i class="fas fa-moon"></i></button>
+        </div>
+    </nav>
+
+    <!-- Main container -->
+    <div class="container mt-5" id="mainContent">
+        <!-- Landing Page -->
+        <div id="landingPage">
+            <div class="text-center">
+                <h2>Welcome to the DDoS Detection and Classification System</h2>
+                <button class="btn btn-primary btn-lg mt-4" id="getStartedButton">Let's Get Started</button>
+            </div>
+        </div>
+
+        <!-- Real-Time Traffic Monitoring Page -->
+        <div id="realTimeTraffic">
+            <h3>Real-Time Network Traffic</h3>
+            <p>Simulating real-time traffic monitoring and DDoS detection.</p>
+            <div class="card mt-3">
+                <div class="card-header">Real-Time Packet Rate</div>
+                <div class="card-body">
+                    <h5 id="packetRate">0 packets/sec</h5>
+                </div>
+            </div>
+            <div class="alert mt-3" id="trafficStatus">Status: Monitoring Normal Traffic</div>
+            <button class="btn btn-secondary mt-3" id="startSimulation">Start Simulation</button>
+            <button class="btn btn-danger mt-3" id="stopSimulation" style="display: none;">Stop Simulation</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript code -->
+    <script>
+        $(document).ready(function() {
+            // Initial setup
+            $('#landingPage').show();
+            var isLoggedIn = false;
+            var trafficInterval;
+            var isSimulationRunning = false;
+
+            // Update navigation bar with real-time traffic option
+            function updateNavBar() {
+                var navLinks = $('#navLinks');
+                navLinks.empty();
+                navLinks.append('<li class="nav-item"><a class="nav-link text-white" href="#" id="navRealTimeTraffic">Real-Time Traffic</a></li>');
+                navLinks.append('<li class="nav-item"><a class="nav-link text-white" href="#" id="navHome">Home</a></li>');
+            }
+
+            updateNavBar();
+
+            // Show page function
+            function showPage(pageId) {
+                $('#mainContent > div').hide();
+                $('#' + pageId).show();
+                window.scrollTo(0, 0);
+            }
+
+            // Real-time traffic simulation
+            $('#startSimulation').click(function() {
+                startTrafficSimulation();
+                $('#startSimulation').hide();
+                $('#stopSimulation').show();
+            });
+
+            $('#stopSimulation').click(function() {
+                stopTrafficSimulation();
+                $('#startSimulation').show();
+                $('#stopSimulation').hide();
+            });
+
+            function startTrafficSimulation() {
+                if (isSimulationRunning) return;
+                isSimulationRunning = true;
+
+                trafficInterval = setInterval(function() {
+                    // Simulate packet rate between 50 and 500 packets/sec
+                    var packetRate = Math.floor(Math.random() * 450) + 50;
+                    $('#packetRate').text(packetRate + ' packets/sec');
+
+                    // Detect DDoS condition if packet rate exceeds 300 packets/sec
+                    if (packetRate > 300) {
+                        $('#trafficStatus').removeClass('alert-success').addClass('alert-danger');
+                        $('#trafficStatus').text('Status: Potential DDoS Attack Detected!');
+                    } else {
+                        $('#trafficStatus').removeClass('alert-danger').addClass('alert-success');
+                        $('#trafficStatus').text('Status: Monitoring Normal Traffic');
+                    }
+                }, 1000);
+            }
+
+            function stopTrafficSimulation() {
+                clearInterval(trafficInterval);
+                isSimulationRunning = false;
+                $('#packetRate').text('0 packets/sec');
+                $('#trafficStatus').removeClass('alert-danger').addClass('alert-success');
+                $('#trafficStatus').text('Status: Monitoring Normal Traffic');
+            }
+
+            // Navigation link handlers
+            $(document).on('click', '#navRealTimeTraffic', function() {
+                showPage('realTimeTraffic');
+            });
+
+            $(document).on('click', '#navHome', function() {
+                showPage('landingPage');
+            });
+
+            // "Let's Get Started" button
+            $('#getStartedButton').click(function() {
+                showPage('realTimeTraffic');
+            });
+        });
+    </script>
+</body>
+</html>
